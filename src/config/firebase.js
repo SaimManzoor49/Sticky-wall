@@ -3,15 +3,20 @@ import { initializeApp } from "firebase/app";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
+import { getAuth } from "firebase/auth";
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCmItm5KYUQkEaF-xENdRddVUDEY3djWyQ",
-  authDomain: "sticky-wall-e9be1.firebaseapp.com",
-  projectId: "sticky-wall-e9be1",
-  storageBucket: "sticky-wall-e9be1.appspot.com",
-  messagingSenderId: "555767871463",
-  appId: "1:555767871463:web:314a25b3eca916c5fa6f42"
+  apiKey: process.env.REACT_APP_apiKey,
+  authDomain: process.env.REACT_APP_authDomain,
+  projectId: process.env.REACT_APP_projectId,
+  storageBucket: process.env.REACT_APP_storageBucket,
+  messagingSenderId: process.env.REACT_APP_messagingSenderId,
+  appId: process.env.REACT_APP_appId
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+export { auth,app };

@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import logo from "../../assets/logo.png";
 import bg from "../../assets/bg.webp";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BsFacebook, BsGoogle, BsTwitter } from "react-icons/bs";
+import { auth } from "../../config/firebase";
+import { useAuth } from "../../context/AuthContext";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 
 const initialState = {
@@ -14,6 +17,10 @@ const initialState = {
 export default function Login() {
   const [state,setState] = useState(initialState)
 
+  const {setUser} = useAuth()
+
+  const navigator = useNavigate()
+
   const handleChange = (e) => {
     const {name,value} = e.target
 
@@ -22,6 +29,27 @@ export default function Login() {
     console.log(state)
 
   };
+
+  const handleSubmit = (e) => {
+
+    const {email,password} = state
+
+    signInWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    setUser(user)
+    console.log(user)
+
+    navigator('/')
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  });
+
+  }
 
   return (
     <>
@@ -83,7 +111,7 @@ export default function Login() {
               </div>
               <div className="mt-3">
                 <h6>
-                  Create an account?<Link to={""} className="ms-1" >Register Now</Link>{" "}
+                  Create an account?<Link to={"/auth/signup"} className="ms-1" >Register Now</Link>{" "}
                 </h6>
               </div>
 
@@ -119,7 +147,7 @@ export default function Login() {
             </div>
             <div className="text-center mt-3">
 
-            <button className="btn btn-outline-success w-75 btn-lg border-2"><span className="fw-bold">Login Now</span></button>
+            <button className="btn btn-outline-success w-75 btn-lg border-2" onClick={handleSubmit}><span className="fw-bold">Login Now</span></button>
             </div>
           </div>
         </div>

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import logo from "../../assets/logo.png";
 import bg from "../../assets/bg.webp";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useNavigation } from "react-router-dom";
 import { BsFacebook, BsGoogle, BsTwitter } from "react-icons/bs";
-
+import {  createUserWithEmailAndPassword } from "firebase/auth";
+import {auth} from '../../config/firebase'
+import { useAuth } from "../../context/AuthContext";
 
 const initialState = {
   email: "",
@@ -13,6 +15,11 @@ const initialState = {
 export default function Signup() {
   const [state,setState] = useState(initialState)
 
+  const {setUser} = useAuth()  
+
+  const navigator = useNavigate()
+
+
   const handleChange = (e) => {
     const {name,value} = e.target
 
@@ -21,6 +28,30 @@ export default function Signup() {
     console.log(state)
 
   };
+
+
+  const handleSubmit = () => {
+
+    const {email,password} = state
+    console.log(email)
+    createUserWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    setUser(user)
+console.log(user) 
+
+navigator('/')
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.log(error)
+    // ..
+  });
+  }
+
   return (
     <>
       <div
@@ -81,7 +112,7 @@ export default function Signup() {
               </div>
               <div className="mt-3">
                 <h6>
-                  Already have an account?<Link to={""} className="ms-1" >Login</Link>{" "}
+                  Already have an account?<Link to={"/auth/login"} className="ms-1" >Login</Link>{" "}
                 </h6>
               </div>
 
@@ -90,6 +121,7 @@ export default function Signup() {
                 placeholder="Email address"
                 className="form-control form-control-lg my-3 w-75"
                 onChange={handleChange}
+                name="email"
               />
 
               <input
@@ -97,6 +129,7 @@ export default function Signup() {
                 placeholder="Password"
                 className="form-control mb-3 form-control-lg w-75"
                 onChange={handleChange}
+                name="password"
               />
             </div>
             <div className="d-flex justify-content-start ps-2 ps-md-5">
@@ -115,7 +148,7 @@ export default function Signup() {
             </div>
             <div className="text-center mt-3">
 
-            <button className="btn btn-outline-success w-75 btn-lg border-2"><span className="fw-bold">Register Now</span></button>
+            <button className="btn btn-outline-success w-75 btn-lg border-2" onClick={handleSubmit}><span className="fw-bold">Register Now</span></button>
             </div>
           </div>
         </div>
