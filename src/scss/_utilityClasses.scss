@@ -1,0 +1,39 @@
+.flex-center{
+    display: flex;
+    justify-content: center;
+    height: 85vh;
+    flex-direction: column;
+
+}
+
+.facebook{
+    background:  #3b5998 ;
+}
+.twitter{
+    background:  #00acee  ;
+}
+.google{
+    background:  #db3236  ;
+}
+
+
+.color-facebook{
+    color: #3b5998;
+}
+.color-twitter{
+    color: #00acee;
+}
+.color-google{
+    color: #db3236;
+}
+
+.color-google:hover,.color-twitter:hover,.color-facebook:hover{
+    color: gray;
+}
+
+.bggr{
+    background: #0F2027;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
