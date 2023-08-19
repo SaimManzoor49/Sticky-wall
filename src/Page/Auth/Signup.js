@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import logo from "../../assets/logo.png";
 import bg from "../../assets/bg.webp";
-import { Link, useNavigate, useNavigation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BsFacebook, BsGoogle, BsTwitter } from "react-icons/bs";
 import {  createUserWithEmailAndPassword } from "firebase/auth";
 import {auth} from '../../config/firebase'
@@ -25,7 +25,6 @@ export default function Signup() {
 
     setState(s=>({...s,[name]:value}))
 
-    console.log(state)
 
   };
 
@@ -33,7 +32,6 @@ export default function Signup() {
   const handleSubmit = () => {
 
     const {email,password} = state
-    console.log(email)
     createUserWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
     // Signed in 
@@ -45,8 +43,6 @@ navigator('/')
     // ...
   })
   .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
     console.log(error)
     // ..
   });

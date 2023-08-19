@@ -26,7 +26,6 @@ export default function Login() {
 
     setState(s=>({...s,[name]:value}))
 
-    console.log(state)
 
   };
 
@@ -40,13 +39,12 @@ export default function Login() {
     const user = userCredential.user;
     setUser(user)
     console.log(user)
-
+    
     navigator('/')
     // ...
   })
   .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
+    console.log(error)
   });
 
   }

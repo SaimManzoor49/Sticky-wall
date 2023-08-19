@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-import {
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from "@ant-design/icons";
+import{TbLogout} from 'react-icons/tb'
 import { Input, Layout, Menu, theme } from "antd";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 import { BsFillMenuButtonFill, BsCalendarDay } from "react-icons/bs";
@@ -19,15 +15,15 @@ import { auth } from "../../config/firebase";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content,  Sider } = Layout;
 
 const label = ["List", "Upcoming", "Today", "Calendar"];
 
 const Home = () => {
   const [componentToRender, setComponentToRender] = useState("List");
 
-  const {setUser} = useAuth();
-  const navigator = useNavigate()
+  const { setUser } = useAuth();
+  const navigator = useNavigate();
 
   const {
     token: { colorBgContainer },
@@ -39,23 +35,27 @@ const Home = () => {
 
   const handleSignout = () => {
     signOut(auth);
-    setUser({})
-    navigator('/auth/login')
+    setUser({});
+    navigator("/auth/login");
   };
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider
+      
         breakpoint="lg"
         collapsedWidth="0"
         onBreakpoint={(broken) => {
-          console.log(broken);
+          // console.log(broken);
         }}
         onCollapse={(collapsed, type) => {
-          console.log(collapsed, type);
+          // console.log(collapsed, type);
         }}
       >
-        <div className="d-flex flex-column justify-content-between" style={{minHeight:'100vh'}}>
+        <div
+          className="d-flex flex-column justify-content-between "
+          style={{ minHeight: "100%" }}
+        >
           <div className="">
             <div className="demo-logo-vertical" />
             <h5 className="text-white px-2 pt-4 "> Menu</h5>
@@ -91,9 +91,7 @@ const Home = () => {
               }))}
             />
           </div>
-          <button className="btn btn-danger mb-2" onClick={handleSignout}>
-            Signout
-          </button>
+         
         </div>
       </Sider>
       <Layout>
@@ -113,6 +111,14 @@ const Home = () => {
               background: colorBgContainer,
             }}
           >
+            <button
+            className="btn btn-danger d-flex justify-content-between rounded-0 position-fixed top-0 end-0  "
+            style={{width:'140px',zIndex:'10'}}
+            onClick={handleSignout}
+          >
+            Signout
+            <TbLogout size={'25px'} />
+          </button>
             {componentToRender === "List" && <List />}
             {componentToRender === "Upcoming" && <Upcoming />}
             {componentToRender === "Today" && <Today />}

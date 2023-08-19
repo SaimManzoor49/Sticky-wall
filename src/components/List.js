@@ -1,20 +1,27 @@
-import React from 'react'
-import {AiOutlinePlus} from 'react-icons/ai'
-import AddTodoModal from './shared/AddTodoModal'
+import React from "react";
+import { AiOutlinePlus } from "react-icons/ai";
+import AddTodoModal from "./shared/AddTodoModal";
+import { useAuth } from "../context/AuthContext";
+import NotesCard from "./shared/NotesCard";
 export default function List() {
+  const { userData } = useAuth();
 
-  const handleTodo = () => {
-    console.log('clicked')
-  }
+ 
 
   return (
     <>
-    <div className="d-flex gap-2 flex-wrap">
-      <AddTodoModal>
-    <div className="bg-light d-flex justify-content-center align-items-center" style={{height:'250px', width:'250px'}} onClick={handleTodo} ><AiOutlinePlus size={'40px'} /></div>
-      </AddTodoModal>
+      <div className="d-flex gap-4 flex-wrap">
+        <AddTodoModal>
+          <div
+            className="bg-light d-flex justify-content-center align-items-center"
+            style={{ height: "250px", width: "250px" }}
+          >
+            <AiOutlinePlus size={"40px"} />
+          </div>
+        </AddTodoModal>
 
-    </div>
+      <NotesCard dataToShow={userData} />
+      </div>
     </>
-  )
+  );
 }
