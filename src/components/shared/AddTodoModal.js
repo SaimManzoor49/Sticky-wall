@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {  Modal } from "antd";
 import FormGroup from "./FormGroup";
-const AddTodoModal = ({ children }) => {
+const AddTodoModal = ({ children , noteToUpdate}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
@@ -10,6 +10,10 @@ const AddTodoModal = ({ children }) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
+
+console.log(noteToUpdate)
+
   return (
     <>
       <Modal
@@ -19,7 +23,8 @@ const AddTodoModal = ({ children }) => {
         centered
         footer={[]}
       >
-        <FormGroup handleCancel={handleCancel} />
+        <FormGroup handleCancel={handleCancel} noteToUpdate={noteToUpdate} dateInSeconds={noteToUpdate?.Date?.seconds}  />
+        {/* <FormGroup handleCancel={handleCancel} noteToUpdate={noteToUpdate}   /> */}
       </Modal>
 
       <div className="" onClick={showModal}>

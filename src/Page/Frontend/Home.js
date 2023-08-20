@@ -14,6 +14,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../config/firebase";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import SearchList from "../../components/shared/SearchList";
 
 const { Header, Content,  Sider } = Layout;
 
@@ -21,6 +22,7 @@ const label = ["List", "Upcoming", "Today", "Calendar"];
 
 const Home = () => {
   const [componentToRender, setComponentToRender] = useState("List");
+  const [search, setSearch] = useState("");
 
   const { setUser } = useAuth();
   const navigator = useNavigate();
@@ -29,9 +31,12 @@ const Home = () => {
     token: { colorBgContainer },
   } = theme.useToken();
 
-  const handleSearch = (e) => {
-    console.log(e.target.value);
+  const handleChange = (e) => {
+    setSearch(e.target.value);
+
   };
+
+
 
   const handleSignout = () => {
     signOut(auth);
@@ -66,7 +71,7 @@ const Home = () => {
               type="text"
               placeholder="Search"
               onChange={(e) => {
-                handleSearch(e);
+                handleChange(e);
               }}
               prefix={<AiOutlineSearch />}
             />
@@ -119,10 +124,14 @@ const Home = () => {
             Signout
             <TbLogout size={'25px'} />
           </button>
+
+
+          {search.length ? <SearchList searchString={search} />:<>
             {componentToRender === "List" && <List />}
             {componentToRender === "Upcoming" && <Upcoming />}
             {componentToRender === "Today" && <Today />}
             {componentToRender === "Calendar" && <Calendar />}
+            </> }
           </div>
         </Content>
       </Layout>

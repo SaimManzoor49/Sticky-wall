@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import NotesCard from "./shared/NotesCard";
+import { TbH6 } from "react-icons/tb";
 
 export default function Today() {
   const [todayNotes, setTodayNotes] = useState([]);
@@ -19,7 +20,7 @@ export default function Today() {
   return (
     <>
     <div className="d-flex gap-4 flex-wrap">
-
+    {!todayNotes.length&& <h5>Nothing todo rest buddy ^-^ </h5>}
       <NotesCard dataToShow={todayNotes} />
     </div>
     </>

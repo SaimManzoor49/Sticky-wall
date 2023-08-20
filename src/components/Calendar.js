@@ -29,7 +29,8 @@ export default function Calendar() {
       <DatePicker style={{width:'100%'}} onChange={onChange} />
     </div>
       <div className="d-flex gap-4 flex-wrap">
-      {!date && <h6>Select Date to see Notes Assigned to that Date</h6>} 
+      {!date && <h5>Select Date to see Notes Assigned to that Date</h5>} 
+      {date && !notes.length&& <h5>Nothing todo rest buddy ^-^ </h5>}
 
       <NotesCard dataToShow={notes} />
       </div>

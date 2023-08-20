@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button,  Form, Input } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { DatePicker } from "antd";
@@ -15,20 +15,32 @@ import {
 import { db } from "../../config/firebase";
 import { useAuth } from "../../context/AuthContext";
 import { v4 } from "uuid";
-// const initialState=
-
-const initialState ={
-  Titile: "",
-  Location: "",
-  Date: "",
-  Type: "Personal",
-  Description: "",
-};
+import dayjs from "dayjs";
 
 
-const FormGroup = ({ handleCancel }) => {
+const FormGroup = ({ handleCancel,noteToUpdate,dateInSeconds }) => {
 
   const { user, setUserData } = useAuth();
+  const [ initialState, setInitalState ] = useState(
+    ()=>{
+      if(noteToUpdate){
+        console.log(noteToUpdate)
+        delete noteToUpdate.Date
+        return noteToUpdate
+      }else{
+        return {
+          Title: "",
+          Location: "",
+          Date: "",
+          Type: "Personal",
+          Description: "",
+        }
+      }
+
+    }
+
+
+  );
   const MyDatePicker = DatePicker.generatePicker(momentGenerateConfig);
 
   const onFinish = async (values) => {
@@ -41,7 +53,6 @@ const FormGroup = ({ handleCancel }) => {
         let arr = [];
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
           arr.push(doc.data());
         });
 
@@ -57,8 +68,12 @@ const FormGroup = ({ handleCancel }) => {
       Description: values.Description,
       Color: values.Color,
       createdBy: user.uid,
-      createdAt: new Date(),
-      id: v4(),
+      // createdAt: ()=>{if(noteToUpdate.createdAt){return noteToUpdate.createdAt }else{return new Date()}},
+      createdAt: noteToUpdate?.createdAt ?   noteToUpdate?.createdAt:  new Date(),
+      // createdAt: noteToUpdate.createdAt ?   noteToUpdate.createdAt:  new Date(),
+      updatedAt: new Date(),
+      // id: ,
+      id: initialState.id ?   initialState.id:  v4(),
     };
 
     console.log("Success:", dataToStore);
@@ -80,6 +95,26 @@ const FormGroup = ({ handleCancel }) => {
   const handleChangeType = (e) => {
     console.log(e.target.value);
   };
+
+
+  console.log(noteToUpdate)
+
+
+  /////////////////////////////
+
+  const getDateInFormate = (d)=>{
+    d = new Date(d)
+
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const day = String(d.getDate()).padStart(2, '0');
+    
+    return `${year}-${month}-${day}`;
+  }
+
+  
+
+
 
   return (
     <>
@@ -118,6 +153,7 @@ const FormGroup = ({ handleCancel }) => {
             {
               required: true,
               message: "Title",
+              
             },
           ]}
         >
@@ -153,6 +189,7 @@ const FormGroup = ({ handleCancel }) => {
         <Form.Item
           label="Date"
           name="Date"
+          
           rules={[
             {
               required: true,
@@ -160,7 +197,8 @@ const FormGroup = ({ handleCancel }) => {
             },
           ]}
         >
-          <MyDatePicker />
+          <MyDatePicker defaultValue={noteToUpdate && dayjs(getDateInFormate(dateInSeconds*1000), 'YYYY-MM-DD')}  />
+          
         </Form.Item>
 
         <Form.Item name="Type" label="Type">
@@ -169,7 +207,7 @@ const FormGroup = ({ handleCancel }) => {
             aria-label="Default select example"
             onChange={handleChangeType}
           >
-            <option selected value={"Personal"}>
+            <option defaultValue={"Personal"} value={"Personal"}>
               Personal
             </option>
             <option value="Work">Work</option>
@@ -183,8 +221,10 @@ const FormGroup = ({ handleCancel }) => {
             span: 16,
           }}
         >
-          <Button type="primary" className="w-100" htmlType="submit">
-            Submit
+          <Button type="primary" className="w-100" htmlType="submit">{
+            noteToUpdate?<>Update</>:<>Submit</>
+            
+          }
           </Button>
         </Form.Item>
       </Form>

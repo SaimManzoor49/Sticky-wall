@@ -3,9 +3,11 @@ import logo from "../../assets/logo.png";
 import bg from "../../assets/bg.webp";
 import { Link, useNavigate } from "react-router-dom";
 import { BsFacebook, BsGoogle, BsTwitter } from "react-icons/bs";
-import {  createUserWithEmailAndPassword } from "firebase/auth";
+import {  FacebookAuthProvider, TwitterAuthProvider, createUserWithEmailAndPassword, signInWithRedirect } from "firebase/auth";
 import {auth} from '../../config/firebase'
 import { useAuth } from "../../context/AuthContext";
+import { GoogleAuthProvider } from "firebase/auth";
+
 
 const initialState = {
   email: "",
@@ -48,6 +50,44 @@ navigator('/')
   });
   }
 
+  const loginGoogle = ()=>{
+    const provider = new GoogleAuthProvider();
+    signInWithRedirect(auth, provider).then(()=>{
+      setUser()
+
+navigator('/')
+
+    }) .catch((error) => {
+      console.log(error)
+      // ..
+    });
+  }
+  const loginFacebook = ()=>{
+    const provider = new FacebookAuthProvider();
+
+    signInWithRedirect(auth, provider).then(()=>{
+
+navigator('/')
+
+    }) .catch((error) => {
+      console.log(error)
+      // ..
+    });
+  }
+  const loginTwitter = ()=>{
+    const provider = new TwitterAuthProvider();
+
+    signInWithRedirect(auth, provider).then(()=>{
+
+navigator('/')
+
+    }) .catch((error) => {
+      console.log(error)
+      // ..
+    });
+  }
+ 
+
   return (
     <>
       <div
@@ -76,6 +116,7 @@ navigator('/')
                 <button
                   type="button"
                   className="btn btn-secondary px-2 px-lg-5 w-100 border-0 facebook"
+                  onClick={loginFacebook}
                 >
                   Continue With Facebook
                 </button>
@@ -84,6 +125,7 @@ navigator('/')
                 <button
                   type="button"
                   className="btn btn-secondary px-2 px-lg-5 w-100 border-0 twitter"
+                  onClick={loginTwitter}
                 >
                   Continue With Twitter
                 </button>
@@ -92,6 +134,7 @@ navigator('/')
                 <button
                   type="button"
                   className="btn btn-secondary px-2 px-lg-5 w-100 border-0 google"
+                  onClick={loginGoogle}
                 >
                   Continue With Google
                 </button>

@@ -32,7 +32,7 @@ useEffect(()=>{
 
 useEffect(()=>{
 
-  const getData =async ()=>{
+  const getNotes = async ()=>{
 
   
     if(user.email){
@@ -52,7 +52,12 @@ useEffect(()=>{
   
   }
   
-  getData()
+  getNotes()
+
+
+
+
+  
 },[user])
 
 

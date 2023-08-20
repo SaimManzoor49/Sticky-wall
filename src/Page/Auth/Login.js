@@ -8,6 +8,8 @@ import { useAuth } from "../../context/AuthContext";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 
+
+
 const initialState = {
   email: "",
   password: ""
@@ -38,6 +40,7 @@ export default function Login() {
     // Signed in 
     const user = userCredential.user;
     setUser(user)
+    
     console.log(user)
     
     navigator('/')
@@ -45,6 +48,7 @@ export default function Login() {
   })
   .catch((error) => {
     console.log(error)
+    
   });
 
   }

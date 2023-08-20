@@ -46,3 +46,9 @@ background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+
 .bottom-screen{
     bottom: 100vh;
 }
+
+.ed-buttons:hover{
+    transition: all 0.1s ease-in-out;
+    transform: scale(1.4);
+
+}
