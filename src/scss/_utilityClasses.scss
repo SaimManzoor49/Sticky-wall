@@ -52,3 +52,16 @@ background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+
     transform: scale(1.4);
 
 }
+.card-hover:hover{
+    transition: all 0.1s ease-in-out;
+    transform: scale(1.1);
+
+}
+
+.sticky-position {
+    top: 16vh !important;
+    left: 16vw !important;
+}
+
+
+

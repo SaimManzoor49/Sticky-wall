@@ -1,5 +1,6 @@
 import React from "react";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
+import {LuView} from 'react-icons/lu'
 import { db } from "../../config/firebase";
 import {
   collection,
@@ -11,6 +12,8 @@ import {
 } from "firebase/firestore";
 import { useAuth } from "../../context/AuthContext";
 import AddTodoModal from "./AddTodoModal";
+import { Link } from "react-router-dom";
+import { ImportOutlined } from "@ant-design/icons";
 
 export default function NotesCard({ dataToShow }) {
   const { user, setUserData } = useAuth();
@@ -53,7 +56,7 @@ export default function NotesCard({ dataToShow }) {
         date = date.toString().slice(0, 15);
         return (
           <div
-            className="bg-ligh d-flex flex-column justify-content-arou   pt-4 position-relative "
+            className="d-flex flex-column  card-hover  pt-4 position-relative "
             style={{
               height: "250px",
               width: "250px",
@@ -84,14 +87,15 @@ export default function NotesCard({ dataToShow }) {
               <small>{d.Location}</small>
               <small className="fw-bold">{date}</small>
             </div>
-            <div className="text-end py-1 ">
-            <AddTodoModal noteToUpdate={d} >
 
-              <AiOutlineEdit
-                size={"20px"}
-                className="text-warning ed-buttons"
+            <div className="text-end py-1 d-flex justify-content-end ">
+                <Link to={`/viewnote/${d.id}`}  className="text-success"><LuView size={"20px"} className="text-success ed-buttons" /></Link>
+              <AddTodoModal noteToUpdate={d}>
+                <AiOutlineEdit
+                  size={"20px"}
+                  className="text-warning ed-buttons"
                 />
-                </AddTodoModal>
+              </AddTodoModal>
               <AiOutlineDelete
                 size={"20px"}
                 className="text-danger mx-1 ed-buttons "

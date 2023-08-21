@@ -8,6 +8,7 @@ const AuthContext =  createContext()
 export default  function AuthContextProvider({children}) {
   const [user,setUser] = useState({})
   const [userData,setUserData] = useState([])
+  const [appLoading,setAppLoading] = useState(true)
   
 
 useEffect(()=>{
@@ -16,11 +17,13 @@ useEffect(()=>{
           // User is signed in, see docs for a list of available properties
           // https://firebase.google.com/docs/reference/js/auth.user
           setUser(user)
+          setAppLoading(false)
           // ...
         } else {
           // User is signed out
           // ...
           setUser({})
+          setAppLoading(false)
         }
       });
 
@@ -62,7 +65,7 @@ useEffect(()=>{
 
 
     return (
-    <AuthContext.Provider value={{user,setUser,userData,setUserData}}>
+    <AuthContext.Provider value={{user,setUser,userData,setUserData,appLoading}}>
     {children}
     </AuthContext.Provider>
   )

@@ -183,7 +183,7 @@ const FormGroup = ({ handleCancel,noteToUpdate,dateInSeconds }) => {
             },
           ]}
         >
-          <TextArea rows={4} />
+          <TextArea rows={4} maxLength={900} />
         </Form.Item>
 
         <Form.Item
